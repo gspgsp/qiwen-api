@@ -40,7 +40,7 @@ $app->group(['namespace' => 'App\Http\Controllers', 'middleware' => ['xss']], fu
     //栏目列表
     $app->post('categorylist', 'ProductController@getCategoryList');
     //首页banner
-    $app->post('index/getbanner', 'IndexController@getIndexBannerList');
+    $app->post('index/banner', 'IndexController@get_banner');
     //首页热门产品
     $app->post('index/hotproduct', 'IndexController@getHotProduct');
     //首页推荐产品

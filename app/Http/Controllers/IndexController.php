@@ -6,12 +6,9 @@
  * Time: 13:41
  */
 namespace APP\Http\Controllers;
-use App\Helper\Token;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Services\UtilService;
-use App\Http\Controllers\Controller;
 
 class IndexController {
     public function __construct(UserService $userService, UtilService $utilService) {
@@ -19,7 +16,15 @@ class IndexController {
         $this->utilService = $utilService;
     }
     //首页banner
-    public function index(){
-
+    public function get_banner(Request $request){
+        $banners =  \DB::table('ad')->where('pid',32)->get();
+        if($banners){
+            return response()->json([
+                'status' => 200,
+                'data' => [
+                    'banners' => $banners
+                ]
+            ]);
+        }
     }
 }
