@@ -20,7 +20,7 @@ class IndexController {
         $banners =  \DB::table('ad')->where('pid',32)->get();
         if($banners){
             foreach ($banners as &$val){
-                $val->ad_code = 'http://qiwen-adm.com/'.$val->ad_code;
+                $val->ad_code = env('IMAGE_DOMAIN').$val->ad_code;
             }
             return response()->json([
                 'status' => 200,
