@@ -58,6 +58,19 @@ return [
             'timezone'  => env('DB_TIMEZONE', '+00:00'),
             'strict'    => false,
         ],
+        'qiwen' => [
+            'driver'    => 'mysql',
+            'host'      => env('DB_HOST', '192.168.187.128'),
+            'port'      => env('DB_PORT', 3306),
+            'database'  => env('DB_DATABASE', 'xianjindai_shop'),
+            'username'  => env('DB_USERNAME', 'root'),
+            'password'  => env('DB_PASSWORD', 111111),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_general_ci',
+            'prefix'    => env('DB_PREFIX', 'tp_'),
+            'timezone'  => env('DB_TIMEZONE', '+00:00'),
+            'strict'    => false,
+        ],
     ],
 
     /*
@@ -92,7 +105,7 @@ return [
             'host'     => env('REDIS_HOST', '127.0.0.1'),
             'port'     => env('REDIS_PORT', 6379),
             'database' => env('REDIS_DATABASE', 0),
-            'password' => env('REDIS_PASSWORD', 'lansha'),
+            'password' => env('REDIS_PASSWORD', 'qiwen'),
         ],
 
     ],
