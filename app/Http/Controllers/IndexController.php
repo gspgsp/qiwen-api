@@ -19,6 +19,9 @@ class IndexController {
     public function get_banner(Request $request){
         $banners =  \DB::table('ad')->where('pid',32)->get();
         if($banners){
+            foreach ($banners as &$val){
+                $val->ad_code = getCurrentDomain().$val->ad_code;
+            }
             return response()->json([
                 'status' => 200,
                 'data' => [
