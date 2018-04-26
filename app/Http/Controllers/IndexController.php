@@ -44,7 +44,11 @@ class IndexController {
                 ]
             ]);
         }
-        $dataList = \DB::table('article')->where('cat_id',$request->input('cate_id'))->select('article_id','cat_id','title')->get();
+        $dataList = \DB::table('article')->where('cat_id',$request->input('cate_id'))->select('article_id','cat_id','title')
+            ->orderBy('add_time','desc')
+            ->skip(0)
+            ->take($request->input('page_size'))
+            ->get();
         return response()->json([
             'status' => 200,
             'data' => [
