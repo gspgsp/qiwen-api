@@ -41,6 +41,8 @@ $app->group(['namespace' => 'App\Http\Controllers', 'middleware' => ['xss']], fu
     $app->post('index/banner', 'IndexController@get_banner');
     //获取所有的文章
     $app->post('index/get_article', 'IndexController@get_article');
+    //获取文章详情
+    $app->post('index/get_article_detail', 'IndexController@get_article_detail');
 
     //首页推荐产品
     $app->post('index/product', 'IndexController@getPreferenceProduct');
