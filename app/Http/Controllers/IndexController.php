@@ -49,6 +49,7 @@ class IndexController {
             ->skip(0)
             ->take($request->input('page_size'))
             ->get();
+        var_dump($dataList);
         return response()->json([
             'status' => 200,
             'data' => [
