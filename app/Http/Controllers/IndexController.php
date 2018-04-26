@@ -55,6 +55,28 @@ class IndexController {
                 'dataList' => $dataList
             ]
         ]);
+    }
 
+    /**
+     * 获取文章详情页
+     * @param Request $request
+     */
+    public function get_article_detail(Request $request){
+        if(empty($request->input('article_id'))){
+            return response()->json([
+                'status' => 400,
+                'error' => [
+                    'code' => '020000',
+                    'message' => '请输入文章类型.'
+                ]
+            ]);
+        }
+        $articleDetail = \DB::table('article')->where('article_id',$request->input('article_id'))->first();
+        return response()->json([
+            'status' => 200,
+            'data' => [
+                'articleDetail' => $articleDetail
+            ]
+        ]);
     }
 }
