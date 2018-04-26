@@ -37,12 +37,11 @@ $app->group(['namespace' => 'App\Http\Controllers', 'middleware' => ['xss']], fu
     $app->post('auth/login', 'UserController@login');
     //忘记密码
     $app->post('auth/reset_pwd', 'UserController@resetPwd');
-    //栏目列表
-    $app->post('categorylist', 'ProductController@getCategoryList');
     //首页banner
     $app->post('index/banner', 'IndexController@get_banner');
-    //首页热门产品
-    $app->post('index/hotproduct', 'IndexController@getHotProduct');
+    //获取所有的文章
+    $app->post('index/get_article', 'IndexController@get_article');
+
     //首页推荐产品
     $app->post('index/product', 'IndexController@getPreferenceProduct');
     //产品列表页

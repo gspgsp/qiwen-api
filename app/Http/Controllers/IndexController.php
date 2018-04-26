@@ -30,4 +30,27 @@ class IndexController {
             ]);
         }
     }
+
+    /**获取所有的文章：id：1~8
+     * @param Request $request
+     */
+    public function get_article(Request $request){
+        if(empty($request->input('cate_id'))){
+            return response()->json([
+                'status' => 400,
+                'error' => [
+                    'code' => '020000',
+                    'message' => '请输入文章类型.'
+                ]
+            ]);
+        }
+        $dataList = \DB::table('article')->where('cat_id',$request->input('cate_id'))->select('article_id','cat_id','title')->get();
+        return response()->json([
+            'status' => 200,
+            'data' => [
+                'dataList' => $dataList
+            ]
+        ]);
+
+    }
 }
