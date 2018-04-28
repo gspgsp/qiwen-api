@@ -43,24 +43,10 @@ $app->group(['namespace' => 'App\Http\Controllers', 'middleware' => ['xss']], fu
     $app->post('index/get_article', 'IndexController@get_article');
     //获取文章详情
     $app->post('index/get_article_detail', 'IndexController@get_article_detail');
+    //解析微信用户信息
+    $app->post('index/decodeUserInfo', 'IndexController@decodeUserInfo');
 
-    //首页推荐产品
-    $app->post('index/product', 'IndexController@getPreferenceProduct');
-    //产品列表页
-    $app->post('productlist', 'ProductController@getProductList');
-    //产品详情页
-    $app->post('productdetail', 'ProductController@getProductDetail');
-    //我要报单第一步
-    $app->post('order/setpone', 'OrderController@setpOne');
-    //我要报单第二步 获取返佣比例
-    $app->post('order/getrate', 'OrderController@setpTwo_GetRate');
-    //我要报单第二步
-    $app->post('order/setptwo', 'OrderController@setpTwo');
-    //我要报单第三步
-    $app->post('order/setptree', 'OrderController@setpTree');
 
-    $app->post('index', 'IndexController@getIndexData');
-    $app->post('order/setpfour', 'OrderController@setpFour');
     //Geetest行为验证初始化
     $app->get('geetest/start', 'GeetestController@start');
     //Geetest行为验证二次回调

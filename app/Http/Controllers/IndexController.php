@@ -79,4 +79,29 @@ class IndexController {
             ]
         ]);
     }
+
+    /**
+     * 解析微信用户信息
+     * @param Request $request
+     */
+    public function decodeUserInfo(Request $request){
+        if(empty($request->input('code')) && empty($request->input('encryptedData')) && empty($request->input('iv'))){
+            return response()->json([
+                'status' => 400,
+                'error' => [
+                    'code' => '020000',
+                    'message' => '参数错误.'
+                ]
+            ]);
+        }
+        $api = env('JSCODE2SESSION_URL');
+        $params = [
+            'appid'   => env('WXAPP_ID'),
+            'secret' => env('WXAPP_SECRET'),
+            'js_code' => $request->input('code'),
+            'grant_type' => env('GRANT_TYPE'),
+        ];
+        $response = curl_request($api, 'GET', $params, []);
+        var_dump($response);
+    }
 }
