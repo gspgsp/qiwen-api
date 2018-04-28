@@ -12,6 +12,7 @@ use App\Services\UtilService;
 use App\Services\WxDataService\WxBizDataCryptService;
 use App\Helper\Token;
 use Carbon\Carbon;
+use Cache;
 use Log;
 
 class IndexController {
