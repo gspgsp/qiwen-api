@@ -102,6 +102,9 @@ class IndexController {
             'grant_type' => env('GRANT_TYPE'),
         ];
         $response = curl_request($api, 'GET', $params, []);
-        var_dump($response);
+        return response()->json([
+            'status' => 200,
+            'data' => $response,
+        ]);
     }
 }
