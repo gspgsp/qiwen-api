@@ -127,7 +127,8 @@ class IndexController {
         $errCode = $pc->decryptData($request->input('encryptedData'), $request->input('iv'), $data );
         if($errCode == 0){
             $data = json_decode($data, true);
-            $timestamp = json_decode($data['timestamp'], true)['timestamp'];
+            var_dump($data);
+            $timestamp = json_decode($data['watermark'], true)['timestamp'];
             $user_info = array(
                 'openid' => $data['openId'],
                 'nickname' => $data['nickname'],
