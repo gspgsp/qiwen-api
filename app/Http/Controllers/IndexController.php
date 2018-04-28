@@ -9,6 +9,7 @@ namespace APP\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Services\UtilService;
+use Log;
 
 class IndexController {
     public function __construct(UserService $userService, UtilService $utilService) {
