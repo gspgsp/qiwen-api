@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Services\UtilService;
 use App\Services\WxDataService\WxBizDataCryptService;
+use App\Helper\Token;
+use Carbon\Carbon;
 use Log;
 
 class IndexController {
@@ -123,17 +125,46 @@ class IndexController {
         $pc = new WxBizDataCryptService(env('WXAPP_ID'), $response['session_key']);
         $data = '';
         $errCode = $pc->decryptData($request->input('encryptedData'), $request->input('iv'), $data );
-        var_dump(json_decode($data, true));
-        /*if ($errCode == 0) {
-            print($data . "\n");
-        } else {
-            print($errCode . "\n");
-        }*/
-
-        return response()->json([
-            'status' => $errCode,
-            'data' => $data,
-        ]);
+        if($errCode == 0){
+            $data = json_decode($data, true);
+            $timestamp = json_decode($data['timestamp'], true)['timestamp'];
+            $user_info = array(
+                'openid' => $data['openId'],
+                'nickname' => $data['nickname'],
+                'sex' => $data['gender'],
+                'head_pic' => $data['avatarUrl'],
+                'unionid' => $data['unionId'],
+                'input_time' => $timestamp,
+            );
+            if($user_id =  \DB::table('users')->insertGetId($user_info)){
+                $access_token = Token::encode(['uid' => $user_id]);
+                $expiresAt = Carbon::now()->addMinutes(config('token.ttl'));
+                Cache::put('access_token:'.$user_id, $access_token, $expiresAt);
+                return response()->json([
+                    'status' => 200,
+                    'data' => [
+                        'access_token' => $access_token,
+                        'user_info' => $this->userService->getUserInfo($user_id)
+                    ]
+                ]);
+            }else{
+                return response()->json([
+                    'status' => 400,
+                    'error' => [
+                        'code' => '020000',
+                        'message' => '操作错误.'
+                    ]
+                ]);
+            }
+        }else{
+            return response()->json([
+                'status' => 400,
+                'error' => [
+                    'code' => $errCode,
+                    'message' => '抱歉，未能获取到用户信息.'
+                ]
+            ]);
+        }
     }
 
 }

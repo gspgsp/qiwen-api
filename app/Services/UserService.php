@@ -214,19 +214,9 @@ class UserService {
      * @param $mobile
      * @return array
      */
-    public function getUserInfo($mobile){
-        $user_info = \DB::table('member')->where('mobile',$mobile)->where('islock',0)->first();
-        $data = array(
-            'user_id' => $user_info->userid,
-            'user_name' => $user_info->username,
-            'user_mobile' => substr_replace($user_info->mobile, "****", 3, 4),
-            'user_img' => QiNiuService::getQiNIuInstance()->privateDownloadUrl($user_info->thumb),
-            'aomout' => number_format($user_info->amount,2),
-            'credit_passed' => $this->getUserStatus($mobile,1),
-            'binded_card' => $this->getUserStatus($mobile,2),
-            'p_password' => empty($user_info->p_password) ? 0 : 1,
-        );
-        return $data;
+    public function getUserInfo($user_id){
+        $user_info = \DB::table('users')->where('user_id',$user_id)->select("user_id","nickname","sex","head_pic")->first();
+        return $user_info;
     }
 
     /**
