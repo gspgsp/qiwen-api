@@ -113,7 +113,7 @@ class IndexController {
         $curl_info = curl_getinfo($curl);
 
         curl_close($curl);
-        Log::debug('response_wx', ['response' => $responseText]);
+        Log::debug('response_wx', ['error_code' => $error_code,'curl_info'=>$curl_info]);
         return response()->json([
             'status' => $error_code,
             'data' => $curl_info,
