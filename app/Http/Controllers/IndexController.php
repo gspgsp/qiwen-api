@@ -9,6 +9,7 @@ namespace APP\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\UserService;
 use App\Services\UtilService;
+use App\Services\WxDataService\WxBizDataCryptService;
 use Log;
 
 class IndexController {
@@ -103,6 +104,7 @@ class IndexController {
             'grant_type' => env('GRANT_TYPE'),
         ];
         $response = curl_request($api, 'GET', $params, []);
+
         // 使用curl_setopt()设置要获取的URL地址
        /* $url = "https://api.weixin.qq.com/sns/jscode2session?appid=".env('WXAPP_ID')."&secret=".env('WXAPP_SECRET')."&js_code=".$request->input('code')."&grant_type=".env('GRANT_TYPE');
         $curl = curl_init($url);
@@ -118,9 +120,20 @@ class IndexController {
 
         curl_close($curl);*/
 
+        $pc = new WxBizDataCryptService(env('WXAPP_ID'), $response['session_key']);
+        $data = '';
+        $errCode = $pc->decryptData($request->input('encryptedData'), $request->input('iv'), $data );
+
+        /*if ($errCode == 0) {
+            print($data . "\n");
+        } else {
+            print($errCode . "\n");
+        }*/
+
         return response()->json([
-            'status' => 200,
-            'data' => $response,
+            'status' => $errCode,
+            'data' => $data,
         ]);
     }
+
 }
