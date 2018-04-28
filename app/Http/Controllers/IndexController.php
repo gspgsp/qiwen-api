@@ -123,7 +123,7 @@ class IndexController {
         $pc = new WxBizDataCryptService(env('WXAPP_ID'), $response['session_key']);
         $data = '';
         $errCode = $pc->decryptData($request->input('encryptedData'), $request->input('iv'), $data );
-
+        var_dump($data);
         /*if ($errCode == 0) {
             print($data . "\n");
         } else {
