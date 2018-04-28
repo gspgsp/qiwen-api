@@ -127,14 +127,13 @@ class IndexController {
         $errCode = $pc->decryptData($request->input('encryptedData'), $request->input('iv'), $data );
         if($errCode == 0){
             $data = json_decode($data, true);
-            $timestamp = $data['watermark']['timestamp'];
             $user_info = array(
                 'openid' => $data['openId'],
-                'nickname' => $data['nickname'],
+                'nickname' => $data['nickName'],
                 'sex' => $data['gender'],
                 'head_pic' => $data['avatarUrl'],
                 'unionid' => $data['unionId'],
-                'input_time' => $timestamp,
+                'input_time' => $data['watermark']['timestamp'],
             );
             if($user_id =  \DB::table('users')->insertGetId($user_info)){
                 $access_token = Token::encode(['uid' => $user_id]);
