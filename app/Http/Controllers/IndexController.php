@@ -101,8 +101,8 @@ class IndexController {
             'js_code' => $request->input('code'),
             'grant_type' => env('GRANT_TYPE'),
         ];
-        $response = curl_request($api, 'GET', $params, [], "json");
-//        Log::debug('response_wx', ['response' => $response]);
+        $response = curl_request($api, 'GET', $params);
+        Log::debug('response_wx', ['response' => $response]);
         return response()->json([
             'status' => 200,
             'data' => $response,
