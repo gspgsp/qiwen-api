@@ -113,13 +113,15 @@ class IndexController {
         $poem_url = getDocumentRoot().'/cacert.pem';
         curl_setopt($curl, CURLOPT_CAINFO, $poem_url);//证书地址
         $responseText = json_decode(curl_exec($curl),true);
+        $error_code = curl_errno($curl);
+        $curl_info = curl_getinfo($curl);
 
         curl_close($curl);
 
-        Log::debug('response_wx', ['data'=>$responseText]);
+        Log::debug('response_wx', ['code'=>$error_code,'info'=>$curl_info]);
         return response()->json([
             'status' => 200,
-            'data' => $responseText,
+            'data' => $error_code,
         ]);
     }
 }
