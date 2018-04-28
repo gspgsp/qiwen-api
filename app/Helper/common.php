@@ -147,7 +147,6 @@ if (! function_exists('curl_request')) {
         curl_setopt($curl, CURLOPT_HEADER, 0);
 
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        var_dump($api);
         $response = curl_exec($curl);
 
         if ($response === FALSE) {

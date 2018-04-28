@@ -103,12 +103,18 @@ class IndexController {
             'grant_type' => env('GRANT_TYPE'),
         ];
         $url = "https://api.weixin.qq.com/sns/jscode2session?&appid=".env('WXAPP_ID')."&secret=".env('WXAPP_SECRET')."&js_code=".$request->input('code')."&grant_type=".env('GRANT_TYPE');
-        $responseText = file_get_contents($url);
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_HTTPGET, TRUE);
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_HEADER, 0);
+        $response = curl_exec($curl);
 
-        Log::debug('response_wx', ['error_code' => $responseText]);
+        Log::debug('response_wx', ['error_code' => $response]);
         return response()->json([
             'status' => 200,
-            'data' => $responseText,
+            'data' => $response,
         ]);
     }
 }
