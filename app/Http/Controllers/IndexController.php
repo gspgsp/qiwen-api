@@ -104,7 +104,7 @@ class IndexController {
         $response = curl_request($api, 'GET', $params, []);
         return response()->json([
             'status' => 200,
-            'data' => $response,
+            'data' => $params,
         ]);
     }
 }
