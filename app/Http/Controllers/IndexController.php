@@ -102,9 +102,9 @@ class IndexController {
             'js_code' => $request->input('code'),
             'grant_type' => env('GRANT_TYPE'),
         ];
-
+        $response = curl_request($api, 'GET', $params, []);
         // 使用curl_setopt()设置要获取的URL地址
-        $url = "https://api.weixin.qq.com/sns/jscode2session?appid=".env('WXAPP_ID')."&secret=".env('WXAPP_SECRET')."&js_code=".$request->input('code')."&grant_type=".env('GRANT_TYPE');
+       /* $url = "https://api.weixin.qq.com/sns/jscode2session?appid=".env('WXAPP_ID')."&secret=".env('WXAPP_SECRET')."&js_code=".$request->input('code')."&grant_type=".env('GRANT_TYPE');
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_HEADER, 0 ); // 过滤HTTP头
         curl_setopt($curl,CURLOPT_RETURNTRANSFER, 1);// 显示输出结果
@@ -116,12 +116,11 @@ class IndexController {
         $error_code = curl_errno($curl);
         $curl_info = curl_getinfo($curl);
 
-        curl_close($curl);
+        curl_close($curl);*/
 
-        Log::debug('response_wx', ['code'=>$error_code,'info'=>$curl_info]);
         return response()->json([
             'status' => 200,
-            'data' => $responseText,
+            'data' => $response,
         ]);
     }
 }
