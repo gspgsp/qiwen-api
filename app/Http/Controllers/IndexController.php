@@ -101,7 +101,7 @@ class IndexController {
             'js_code' => $request->input('code'),
             'grant_type' => env('GRANT_TYPE'),
         ];
-        $response = curl_request($api, 'GET', $params, []);
+        /*$response = curl_request($api, 'GET', $params, []);*/
         return response()->json([
             'status' => 200,
             'data' => $params,
