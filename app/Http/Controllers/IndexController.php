@@ -102,10 +102,19 @@ class IndexController {
             'js_code' => $request->input('code'),
             'grant_type' => env('GRANT_TYPE'),
         ];
-//        Log::debug('response_wx', ['response' => $response]);
+        $url = (strpos($api, '?') ? '&' : '?') . http_build_query($params);
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HEADER, 0 ); // 过滤HTTP头
+        curl_setopt($curl,CURLOPT_RETURNTRANSFER, 1);// 显示输出结果
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);//SSL证书认证
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);//不认证
+        $responseText = json_decode(curl_exec($curl),true);
+
+        curl_close($curl);
+        Log::debug('response_wx', ['response' => $responseText]);
         return response()->json([
             'status' => 200,
-            'data' => $api,
+            'data' => $responseText,
         ]);
     }
 }
