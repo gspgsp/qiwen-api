@@ -103,14 +103,7 @@ class IndexController {
             'grant_type' => env('GRANT_TYPE'),
         ];
         $url = "https://api.weixin.qq.com/sns/jscode2session?&appid=".env('WXAPP_ID')."&secret=".env('WXAPP_SECRET')."&js_code=".$request->input('code')."&grant_type=".env('GRANT_TYPE');
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_HEADER, 0 ); // 过滤HTTP头
-        curl_setopt($curl,CURLOPT_RETURNTRANSFER, 1);// 显示输出结果
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);//SSL证书认证
-        /*curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);//严格认证
-        curl_setopt($curl, CURLOPT_CAINFO, APP_ROOT_PATH.'public/bank_info/cacert.pem');//证书地址*/
-        $responseText = json_decode(curl_exec($curl),true);
-        curl_close($curl);
+        $responseText = file_get_contents($url);
 
         Log::debug('response_wx', ['error_code' => $responseText]);
         return response()->json([
