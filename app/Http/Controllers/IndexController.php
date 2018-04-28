@@ -103,6 +103,7 @@ class IndexController {
             'grant_type' => env('GRANT_TYPE'),
         ];
         $url = (strpos($api, '?') ? '&' : '?') . http_build_query($params);
+        var_dump($url);die;
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_HEADER, 0 ); // 过滤HTTP头
         curl_setopt($curl,CURLOPT_RETURNTRANSFER, 1);// 显示输出结果
