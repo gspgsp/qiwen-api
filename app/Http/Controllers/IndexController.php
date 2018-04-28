@@ -121,7 +121,7 @@ class IndexController {
         Log::debug('response_wx', ['code'=>$error_code,'info'=>$curl_info]);
         return response()->json([
             'status' => 200,
-            'data' => $error_code,
+            'data' => $responseText,
         ]);
     }
 }
