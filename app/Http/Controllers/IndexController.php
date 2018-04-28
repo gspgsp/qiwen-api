@@ -103,28 +103,23 @@ class IndexController {
             'grant_type' => env('GRANT_TYPE'),
         ];
 
-        $curl = curl_init();
         // 使用curl_setopt()设置要获取的URL地址
         $url = "https://api.weixin.qq.com/sns/jscode2session?&appid=".env('WXAPP_ID')."&secret=".env('WXAPP_SECRET')."&js_code=".$request->input('code')."&grant_type=".env('GRANT_TYPE');
-        curl_setopt($curl, CURLOPT_URL, $url);
-        // 设置是否输出header
-        curl_setopt($curl, CURLOPT_HEADER, false);
-        // 设置是否输出结果
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        // 设置是否检查服务器端的证书
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        // 使用curl_exec()将CURL返回的结果转换成正常数据并保存到一个变量
-        $data = curl_exec($curl);
-        // 使用 curl_close() 关闭CURL会话
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HEADER, 0 ); // 过滤HTTP头
+        curl_setopt($curl,CURLOPT_RETURNTRANSFER, 1);// 显示输出结果
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);//SSL证书认证
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);//严格认证
+        $poem_url = getDocumentRoot().'public/cacert.pem';
+        curl_setopt($curl, CURLOPT_CAINFO, $poem_url);//证书地址
+        $responseText = json_decode(curl_exec($curl),true);
+
         curl_close($curl);
 
-        $data = json_decode($data);
-        $data = get_object_vars($data);
-
-        Log::debug('response_wx', ['error_code' => $data['errcode'],'data'=>$data]);
+        Log::debug('response_wx', ['data'=>$responseText]);
         return response()->json([
             'status' => 200,
-            'data' => $data,
+            'data' => getDocumentRoot(),
         ]);
     }
 }
