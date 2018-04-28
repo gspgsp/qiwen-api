@@ -110,7 +110,7 @@ class IndexController {
         curl_setopt($curl,CURLOPT_RETURNTRANSFER, 1);// 显示输出结果
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);//SSL证书认证
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);//严格认证
-        $poem_url = getDocumentRoot().'public/cacert.pem';
+        $poem_url = getDocumentRoot().'/cacert.pem';
         curl_setopt($curl, CURLOPT_CAINFO, $poem_url);//证书地址
         $responseText = json_decode(curl_exec($curl),true);
 
@@ -119,7 +119,7 @@ class IndexController {
         Log::debug('response_wx', ['data'=>$responseText]);
         return response()->json([
             'status' => 200,
-            'data' => getDocumentRoot(),
+            'data' => $responseText,
         ]);
     }
 }
