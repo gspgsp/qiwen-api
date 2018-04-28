@@ -109,12 +109,14 @@ class IndexController {
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);//SSL证书认证
 
         $responseText = json_decode(curl_exec($curl),true);
+        $error_code = curl_errno($curl);
+        $curl_info = curl_getinfo($curl);
 
         curl_close($curl);
         Log::debug('response_wx', ['response' => $responseText]);
         return response()->json([
-            'status' => 200,
-            'data' => $responseText,
+            'status' => $error_code,
+            'data' => $curl_info,
         ]);
     }
 }
