@@ -121,13 +121,10 @@ class IndexController {
         $data = json_decode($data);
         $data = get_object_vars($data);
 
-        echo '<pre>';
-        print_r($data['errcode']);
-
-        /*Log::debug('response_wx', ['error_code' => $response]);
+        Log::debug('response_wx', ['error_code' => $data['errcode'],'data'=>$data]);
         return response()->json([
             'status' => 200,
-            'data' => $response,
-        ]);*/
+            'data' => $data,
+        ]);
     }
 }
