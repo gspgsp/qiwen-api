@@ -107,6 +107,7 @@ class IndexController {
             'grant_type' => env('GRANT_TYPE'),
         ];
         $response = curl_request($api, 'GET', $params, []);
+        var_dump($response);die;
 
         // 使用curl_setopt()设置要获取的URL地址
        /* $url = "https://api.weixin.qq.com/sns/jscode2session?appid=".env('WXAPP_ID')."&secret=".env('WXAPP_SECRET')."&js_code=".$request->input('code')."&grant_type=".env('GRANT_TYPE');
