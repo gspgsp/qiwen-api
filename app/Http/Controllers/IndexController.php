@@ -167,4 +167,24 @@ class IndexController {
         }
     }
 
+    /**
+     * 验证access_token
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function check_token(Request $request){
+        if(empty($request->input('token'))){
+            return response()->json([
+                'status' => 400,
+                'error' => [
+                    'code' => '020000',
+                    'message' => '请输入access_token.'
+                ]
+            ]);
+        }
+        $payload =  Token::decode($request->input('token'));
+        var_dump($payload);
+
+    }
+
 }
