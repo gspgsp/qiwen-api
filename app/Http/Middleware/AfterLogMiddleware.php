@@ -23,7 +23,7 @@ class AfterLogMiddleware
 
     public function handle(Request $request, Closure $next) {
         $response = $next($request);
-        $logInfo = '[INFO] Uuid:'.$request->uuid.' End time:'.microtimeFormat('Y/m/d H:i:s:x', microtimeFloat()).' Inerface:'.$request->path().' Response:'.$response->content().PHP_EOL;
+        $logInfo = '[INFO] Uuid:'.$request->uuid.' End time:'.microtimeFormat('Y/m/d H:i:s:x', microtimeFloat()).' Inerface:'.$request->path().' Response:'.response()->content().PHP_EOL;
         if (strpos($response->content(), '<!DOCTYPE html>') === false) {
             $this->logService->info($logInfo);
         }
