@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Services\Log\LogService;
+use App\Services\Log\ApiLogService;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
  */
 class AfterLogMiddleware
 {
-    public function __construct(LogService $logService){
+    public function __construct(ApiLogService $logService){
         $this->logService = $logService::getInstance();
     }
 

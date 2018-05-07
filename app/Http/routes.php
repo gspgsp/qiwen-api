@@ -45,8 +45,6 @@ $app->group(['namespace' => 'App\Http\Controllers', 'middleware' => ['xss']], fu
     $app->post('index/get_article_detail', 'IndexController@get_article_detail');
     //解析微信用户信息
     $app->post('index/decodeUserInfo', 'IndexController@decodeUserInfo');
-    //验证access_token
-    $app->post('index/check_token', 'IndexController@check_token');
 
 
     //Geetest行为验证初始化
@@ -61,6 +59,11 @@ $app->group(['namespace' => 'App\Http\Controllers', 'middleware' => ['xss']], fu
 //Authorization
 $app->group(['namespace' => 'App\Http\Controllers', 'middleware' => ['token', 'xss', 'beforeLog', 'afterLog']], function($app)
 {
+    //验证access_token
+    $app->post('index/check_token', 'IndexController@check_token');
+
+
+
     //用户信息
     $app->post('user/info', 'UserController@userInfo');
     //上传图片获取token 以及img_url H5用

@@ -4,7 +4,7 @@ return [
     
     'debug' => env('APP_DEBUG', false),
     
-    'name' => env('APP_NAME', 'ZKAPP'),
+    'name' => env('APP_NAME', 'QWAPP'),
 
     'shop_url' => env('SHOP_URL', ''),
 
