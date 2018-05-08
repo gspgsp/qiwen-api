@@ -1169,10 +1169,35 @@ class UserController extends Controller {
         }
 
         Log::debug('user_code', ['user_code' => $request->input('code')]);
-        if($user_info = \DB::table('member')->where('mobile',$request->input('telephone'))->first()){
 
+        $api = env('JSCODE2SESSION_URL');
+        $params = [
+            'appid'   => env('WXAPP_ID'),
+            'secret' => env('WXAPP_SECRET'),
+            'js_code' => $request->input('code'),
+            'grant_type' => env('GRANT_TYPE'),
+        ];
+        $response = curl_request($api, 'GET', $params, []);
+
+        if($user_id = \DB::table('users')->where('openid',$response['openid'])->value('user_id')){
+            $access_token = Token::encode(['uid' => $user_id]);
+            $expiresAt = Carbon::now()->addMinutes(config('token.ttl'));
+            Cache::put('access_token:'.$user_id, $access_token, $expiresAt);
+            return response()->json([
+                'status' => 200,
+                'data' => [
+                    'access_token' => $access_token,
+                    'user_info' => $this->userService->getUserInfo($user_id)
+                ]
+            ]);
         }else{
-
+            return response()->json([
+                'status' => 400,
+                'error' => [
+                    'code' => '020041',
+                    'message' => '用户信息不存在'
+                ]
+            ], env('CLIENT_ERROR_CODE', 400));
         }
 
     }
