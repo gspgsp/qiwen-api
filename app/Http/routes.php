@@ -33,10 +33,10 @@ $app->group(['namespace' => 'App\Http\Controllers', 'middleware' => ['xss']], fu
     $app->post('auth/register', 'UserController@register');
     //注册-推荐人
     $app->post('auth/refer', 'UserController@get_refer');
-    //登录
-    $app->post('auth/login', 'UserController@login');
     //忘记密码
     $app->post('auth/reset_pwd', 'UserController@resetPwd');
+
+
     //首页banner
     $app->post('index/banner', 'IndexController@get_banner');
     //获取所有的文章
@@ -45,6 +45,8 @@ $app->group(['namespace' => 'App\Http\Controllers', 'middleware' => ['xss']], fu
     $app->post('index/get_article_detail', 'IndexController@get_article_detail');
     //解析微信用户信息
     $app->post('index/decodeUserInfo', 'IndexController@decodeUserInfo');
+    //登录
+    $app->post('auth/login', 'UserController@login');
 
 
     //Geetest行为验证初始化

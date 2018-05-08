@@ -107,6 +107,7 @@ class IndexController {
             'grant_type' => env('GRANT_TYPE'),
         ];
         $response = curl_request($api, 'GET', $params, []);
+        var_dump($response);die;
 
         // 使用curl_setopt()设置要获取的URL地址
        /* $url = "https://api.weixin.qq.com/sns/jscode2session?appid=".env('WXAPP_ID')."&secret=".env('WXAPP_SECRET')."&js_code=".$request->input('code')."&grant_type=".env('GRANT_TYPE');
@@ -183,7 +184,29 @@ class IndexController {
             ]);
         }
         $payload =  Token::decode($request->input('token'));
-        var_dump($payload);
+        if(is_object($payload) && property_exists($payload, 'uid')){
+            if(\DB::table('users')->where('user_id',$payload->uid)->value('user_id')){
+                return response()->json([
+                    'status' => 200
+                ]);
+            }else{
+                return response()->json([
+                    'status' => 400,
+                    'error' => [
+                        'code' => '020000',
+                        'message' => '用户未注册.'
+                    ]
+                ]);
+            }
+        }else{
+            return response()->json([
+                'status' => 400,
+                'error' => [
+                    'code' => '020000',
+                    'message' => '参数错误.'
+                ]
+            ]);
+        }
 
     }
 

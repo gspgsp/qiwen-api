@@ -1158,7 +1158,7 @@ class UserController extends Controller {
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function login(Request $request){
-        if (empty($request->input('telephone')) || empty($request->input('password'))) {
+        if (empty($request->input('code'))) {
             return response()->json([
                 'status' => 400,
                 'error' => [
@@ -1167,61 +1167,12 @@ class UserController extends Controller {
                 ]
             ], env('CLIENT_ERROR_CODE', 400));
         }
-        if(!$this->userService->isTelephone($request->input('telephone'))){
-            return response()->json([
-                'status' => 400,
-                'error' => [
-                    'code' => '030037',
-                    'message' => '账号或密码错误.'
-                ]
-            ], env('CLIENT_ERROR_CODE', 400));
-        }
-        Log::debug('user_mobile', ['user_mobile' => $request->input('telephone')]);
+
+        Log::debug('user_code', ['user_code' => $request->input('code')]);
         if($user_info = \DB::table('member')->where('mobile',$request->input('telephone'))->first()){
-            if($user_info->islock == 1){
-                return response()->json([
-                    'status' => 400,
-                    'error' => [
-                        'code' => '020038',
-                        'message' => '用户已经被锁定，请联系客服'
-                    ]
-                ], env('CLIENT_ERROR_CODE', 400));
-            }
-            $password = $this->userService->generatePassword($this->userService->decodePassword($request->input('password')), $user_info->encrypt);
-            if($password == $user_info->password){
-                $access_token = Token::encode(['uid' => $request->input('telephone')]);
-                //Redis::set('access_token:'.$request->input('telephone'), $access_token);
-                $expiresAt = Carbon::now()->addMinutes(config('token.ttl'));
-                Cache::put('access_token:'.$request->input('telephone'), $access_token, $expiresAt);
-                /*return response()->json([
-                    'status' => 200,
-                    'access_token' => $access_token,
-                    'data' => $this->userService->getUserInfo($request->input('telephone')),
-                ]);*/
-                return response()->json([
-                    'status' => 200,
-                    'data' => [
-                        'access_token' => $access_token,
-                        'user_info' => $this->userService->getUserInfo($request->input('telephone'))
-                    ]
-                ]);
-            }else{
-                return response()->json([
-                    'status' => 400,
-                    'error' => [
-                        'code' => '030039',
-                        'message' => '账号或密码错误.'
-                    ]
-                ], env('CLIENT_ERROR_CODE', 400));
-            }
+
         }else{
-            return response()->json([
-                'status' => 400,
-                'error' => [
-                    'code' => '020040',
-                    'message' => '账号或密码错误.'
-                ]
-            ], env('CLIENT_ERROR_CODE', 400));
+
         }
 
     }
