@@ -215,9 +215,8 @@ class IndexController {
     public function coupon_list(){
         $coupons =  \DB::table('coupon')->whereRaw("type = 1 and status = 1")->orderBy('add_time', 'desc')->take(5)->get();
         foreach ($coupons as &$val){
-            $val['use_end_time'] = date('Y-m-d H:i:s',$val['use_end_time']);
+            $val->use_end_time = date('Y-m-d H:i:s',$val->use_end_time);
         }
-        var_dump($coupons);
         return response()->json([
             'status' => 200,
             'data' => [
