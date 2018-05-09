@@ -209,4 +209,17 @@ class IndexController {
 
     }
 
+    /**
+     * 获取折扣列表
+     */
+    public function coupon_list(){
+        $coupons =  \DB::table('coupon')->whereRaw("type = 1 and status = 1")->orderBy('add_time', 'desc')->take(5)->get();
+        return response()->json([
+            'status' => 200,
+            'data' => [
+                'coupons' => $coupons
+            ]
+        ]);
+    }
+
 }
