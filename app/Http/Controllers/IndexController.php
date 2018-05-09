@@ -217,6 +217,7 @@ class IndexController {
         foreach ($coupons as &$val){
             $val['use_end_time'] = date('Y-m-d H:i:s',$val['use_end_time']);
         }
+        var_dump($coupons);
         return response()->json([
             'status' => 200,
             'data' => [
