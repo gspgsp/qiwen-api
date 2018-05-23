@@ -12,14 +12,16 @@ class  test{
         $cli->send($data);
     }
 }*/
+use Illuminate\Http\Request;
+
 require_once (__DIR__.'/../../Services/XunSearch/sdk/php/lib/XS.php');
 class TestController{
-	public function index(){
+	public function index(Request $request){
 		header('Content-Type:text/plain;charset=utf-8');
 		$xs = new \XS(__DIR__.'/../../Services/XunSearch/sdk/php/app/goods.ini');  // 使用 /path/to/demo.ini
 //		$tokenizer = new \XSTokenizerScws;
 		$search = $xs->search; // 获取 搜索对象
-	    $query = "华为";
+        $query = $request->input('keyword');
 	    /*$docs = $search->getExpandedQuery($query);*/ 
 	    $search->setQuery($query)
 	        ->setLimit(10,0) // 设置搜索语句, 分页, 偏移量
