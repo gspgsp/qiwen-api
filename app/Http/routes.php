@@ -49,6 +49,8 @@ $app->group(['namespace' => 'App\Http\Controllers', 'middleware' => ['xss']], fu
     $app->post('auth/login', 'UserController@login');
     //获取折扣列表
     $app->get('index/coupon', 'IndexController@coupon_list');
+    //获取折扣列表
+    $app->get('index/search', 'TestController@index');
 
 
     //Geetest行为验证初始化
