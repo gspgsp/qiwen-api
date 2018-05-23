@@ -19,11 +19,13 @@ class TestController{
 	public function index(Request $request){
 		header('Content-Type:text/plain;charset=utf-8');
 		$xs = new \XS(__DIR__.'/../../Services/XunSearch/sdk/php/app/goods.ini');  // 使用 /path/to/demo.ini
-//		$tokenizer = new \XSTokenizerScws;
+		$tokenizer = new \XSTokenizerScws;
 		$search = $xs->search; // 获取 搜索对象
         $query = $request->input('keyword');
-	    /*$docs = $search->getExpandedQuery($query);*/ 
-	    $search->setQuery($query)
+//	    $docs = $search->getExpandedQuery($query);
+        $words = $tokenizer->getResult($query);
+        print_r($words);
+	    /*$search->setQuery($query)
 	        ->setLimit(10,0) // 设置搜索语句, 分页, 偏移量
 	    ;
 
@@ -38,7 +40,7 @@ class TestController{
 	        echo date("Y-m-d", time()) . "<br>" . $goods_remark . "<br>";
 	        echo '<br>========<br>';
 	    }
-	    echo  '总数:'. $count;
+	    echo  '总数:'. $count;*/
 
 	}
 }
