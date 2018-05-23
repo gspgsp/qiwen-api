@@ -22,8 +22,8 @@ class TestController{
 		$tokenizer = new \XSTokenizerScws;
 		$search = $xs->search; // 获取 搜索对象
         $query = $request->input('keyword');
-//	    $docs = $search->getExpandedQuery($query);
-        $words = $tokenizer->getResult($query);
+        $words = $search->getExpandedQuery($query);
+//        $words = $tokenizer->getResult($query);
         print_r($words);
 	    /*$search->setQuery($query)
 	        ->setLimit(10,0) // 设置搜索语句, 分页, 偏移量
